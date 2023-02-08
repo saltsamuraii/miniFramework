@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="replaceNode()">Replace</button>
+<button onclick="replaceNode2()">Replace Back</button>
+<div id="app"></div>
+<script src="index.js"></script>
+<script>
+  const node = h('div', {class: 'container'},
+    [
+      h('h1', {title: 'this is title'}, 'Basics of JS Framework'),
+      h('p', {class: 'description'}, 'Here we learn, what is behind of every modern JS Framework')
+    ])
+
+  const newNode = h('div', {class: 'container'},
+    [
+      h('h1', {title: 'this is title'}, 'Basics of JS Framework - updated'),
+      h('div', {class: 'description'},
+        [
+          h('img',
+            {
+              src: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
+              style: 'width: 300px'
+            }, []),
+          h('p', {}, 'Replaced node content'),
+        ]),
+      h('input', {}, []),
+    ])
+
+  mount(node, document.getElementById('app'));
+
+  function replaceNode() {
+    patch(node, newNode)
+  }
+
+  function replaceNode2() {
+    patch(newNode, node)
+  }
+
+</script>
+</body>
+</html>
