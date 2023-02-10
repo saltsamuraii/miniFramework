@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="index.js"></script>
+<script src="reactivity.js"></script>
+<script>
+  const state = reactive({
+    inputValue: ''
+  })
+
+  function render(text) {
+   return h('div', {class: 'container'},
+      [
+        h('h1', {title: 'this is title'}, 'Basics of JS Framework - updated'),
+        h('div', {class: 'description'},
+          [
+            h('img',
+              {
+                src: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
+                style: 'width: 300px'
+              }, []),
+            h('p', {}, text),
+          ]),
+        h('input', {oninput: "state.inputValue = this.value" }, []),
+      ])
+  }
+
+  let currentNode;
+  watchEffect(() => {
+    if (!currentNode) {
+      currentNode = render(state.inputValue)
+      mount(currentNode, document.getElementById('app'));
+    } else {
+     const newNode = render(state.inputValue)
+      patch(currentNode, newNode)
+      currentNode = newNode
+    }
+  })
+</script>
+</body>
+</html>

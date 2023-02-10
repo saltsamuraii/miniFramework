@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="reactivity.js"></script>
+<script>
+  const state = reactive({
+    randomNumber: -1,
+    name: 'Reactivity'
+  })
+
+  watchEffect(() => {
+    console.log(`Current random number is ${state.randomNumber}`)
+  })
+
+  setInterval(() => {
+    state.randomNumber = Math.random()
+  }, 1000)
+</script>
+</body>
+</html>
