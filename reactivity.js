@@ -1,0 +1,44 @@
+let activeEffect;
+
+function watchEffect(fn) {
+  activeEffect = fn
+  fn()
+  activeEffect = null
+}
+
+class Dependency {
+  constructor() {
+    this.subscribers = new Set()
+  }
+
+  depend() {
+    if (activeEffect) this.subscribers.add(activeEffect)
+  }
+
+  notify() {
+    this.subscribers.forEach((subscriber) => subscriber())
+  }
+}
+
+function reactive(obj) {
+  Object.keys(obj).forEach((key) => {
+    const dependency = new Dependency()
+    let value = obj[key]
+
+    Object.defineProperty(obj, key, {
+      get() {
+        dependency.depend()
+        return value
+      },
+
+      set(newValue) {
+        if (newValue !== value) {
+          value = newValue
+          dependency.notify()
+        }
+      }
+    })
+  })
+
+  return obj
+}
